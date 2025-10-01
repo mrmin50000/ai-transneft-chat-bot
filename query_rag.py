@@ -1,4 +1,3 @@
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
@@ -13,22 +12,32 @@ vector_store = Chroma(
 )
 
 prompt = ChatPromptTemplate.from_template(
-    """Ты ассистент-помощник в компании "Транснефть", который должен отвечать на вопросы пользователей исходя из данной тебе информации про компанию.
-    Используй нужные куски данного тебе контекста (context) для ответа на вопросы (question). Если ты не знаешь ответа на вопрос, то отвечай "Я не знаю" 
-    Question: {question}
-    Context: {context}
-    Answer:""")
+    """Ты ассистент-помощник в компании "Транснефть". Отвечай ТОЛЬКО на основе предоставленного контекста.
 
-llm = OllamaLLM(model='llama3')
+Контекст:
+{context}
 
-question = "Когда день рождения у транснефти?"
+Вопрос: {question}
 
-retrieved_docs = vector_store.similarity_search(question, k=3)
+Инструкции:
+- Отвечай точно и по делу
+- Если ответа нет в контексте, скажи "Я не знаю"
+- Не придумывай информацию
+- Используй только факты из контекста
 
-docs_content = "\n".join([str(doc) for doc in retrieved_docs])
+Ответ:""")
 
-message = prompt.invoke({"question": question, "context": docs_content})
+llm = OllamaLLM(model='llama3:8b')
 
-answer = llm.invoke(message)
+while True:
+    question = input()
 
-print(answer)
+    retrieved_docs = vector_store.similarity_search(question, k=3)
+
+    docs_content = "\n".join([str(doc) for doc in retrieved_docs])
+
+    message = prompt.invoke({"question": question, "context": docs_content})
+
+    answer = llm.invoke(message)
+
+    print(answer)

@@ -4,7 +4,7 @@ from langchain_chroma import Chroma
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
 
-file_path = '/home/mrmin50000/github/ai-transneft-chat-bot/123.txt'
+file_path = '/home/mrmin50000/github/ai-transneft-chat-bot/data/data.txt'
 with open(file_path, 'r', encoding='utf-8') as file:
     file_content = file.read()
 print(f"Total characters: {len(file_content)}")
