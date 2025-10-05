@@ -2,11 +2,12 @@ from langchain_ollama import OllamaEmbeddings, OllamaLLM
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema import Document
+import speech_recognition as sr
 
 class TransneftRAGAssistant:
     def __init__(self):
         self.embeddings = OllamaEmbeddings(model="bge-m3")
-
+        self.recognizer = sr.Recognizer()
         self.vector_store = Chroma(
             collection_name="Transneft_info",
             embedding_function=self.embeddings,
@@ -58,6 +59,15 @@ class TransneftRAGAssistant:
     def ask_question(self, question: str):
         if not question.strip():
             return "Please, give me any question"
+
+        if question == "IWTS":
+            with sr.Microphone() as source:
+                print("Speak...")
+                audio = self.recognizer.listen(source)
+            try:
+                question = self.recognizer.recognize_vosk(audio, language="ru-RU")
+            except sr.UnknownValueError:
+                print("Speech recognition failed")
 
         print(f"Processing the request: {question}")
 
