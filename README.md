@@ -30,7 +30,7 @@ RAG (Retrieval-Augmented Generation) assistant for answering questions about "Tr
 
 ```bash
 # Clone repository (if applicable)
-git clone <repository-url>
+git clone https://github.com/mrmin50000/ai-transneft-chat-bot.git
 cd ai-transneft-chat-bot
 
 # Create virtual environment
