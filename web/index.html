@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+      body { margin: 0; }
+      #bot-name {
+          position: absolute;
+          top: 10px;
+          left: 500px;
+          color: white;
+          font-family: Arial;
+          font-size: 50px;
+      }
+      #character-renderer {
+          height: 500px;
+          width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bot-name">Вопросы?</div>
+    <div id="character-renderer"></div>
+    <div id="greet">greet</div>
+    <div id="idle">idle</div>
+    <div id="response">response</div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
